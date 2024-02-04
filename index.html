@@ -89,5 +89,51 @@
         </div>
       </div>
     </header>
+
+    <main>
+      <article class="container">
+        <div class="content-left">
+          <!----- Current Weather ---->
+          <section
+            class="section current-weather"
+            aria-label="current weather"
+            data-current-weather
+          >
+            <div class="card card-lg current-weather-card">
+              <h2 class="title-2 card-title">Now</h2>
+              <div class="wrapper">
+                <p class="heading">25&deg;<sup>C</sup></p>
+                <img
+                  src="./assets/Images/weather_icons/01d.png"
+                  class="weather-icon"
+                  width="64"
+                  height="64"
+                  alt=""
+                />
+              </div>
+              <p class="body-3">Overcast Clouds</p>
+              <ul class="meta-list">
+                <li class="meta-item">
+                  <span class="m-icon">calendar_today</span>
+                  <p class="title-3 meta-text">Thursday 16, Feb</p>
+                </li>
+                <li class="meta-item">
+                  <span class="m-icon">location_on</span>
+                  <p class="title-3 meta-text">London, GB</p>
+                </li>
+              </ul>
+            </div>
+          </section>
+          <!----- Forecast weather ---->
+          <section
+            class="section forecast"
+            aria-label="data-5-day-forecast"
+            data-current-weather
+          >
+            <h2 class="title-2"></h2>
+          </section>
+        </div>
+      </article>
+    </main>
   </body>
 </html>
