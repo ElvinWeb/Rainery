@@ -1,5 +1,4 @@
 "use strict";
-
 export const weekDayNames = [
   "Sunday",
   "Monday",
@@ -75,4 +74,9 @@ export const aqiText = {
     message:
       "Health warnings of emergency conditions. The entire population is more likely to be affected.",
   },
+};
+export const addEventOnElements = function (elements, eventType, callBack) {
+  for (const element of elements) {
+    element.addEventListener(eventType, callBack);
+  }
 };
