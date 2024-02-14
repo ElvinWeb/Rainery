@@ -315,6 +315,17 @@ body {
 .label-2 {
   font-size: var(--label-2);
 }
+.fade-in {
+  animation: fade-in 0.5s ease forwards;
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 /*---------- Header ---------*/
 .btn-primary,
 .span {
@@ -322,7 +333,7 @@ body {
 }
 
 .logo img {
-  width: 150px;
+  width: 180px;
 }
 
 .header .container,
@@ -717,7 +728,7 @@ article.container::before {
 /*--------- Media Queries ---------*/
 @media (min-width: 768px) {
   .container {
-    padding: 24px;
+    padding: 0 24px;
   }
   .title-1 {
     --title-1: 2.4rem;
@@ -750,7 +761,7 @@ article.container::before {
     clip-path: circle(3% at calc(100% - 273px) 6%);
   }
   main {
-    height: calc(100vh- 96px);
+    height: calc(100vh - 96px);
   }
   article.container {
     padding-block-start: 0;
@@ -763,7 +774,7 @@ article.container::before {
     top: 0;
   }
   .section:not(:last-child) {
-    margin-block: 20px;
+    margin-block: 35px;
   }
   .forecast-card .card-item:not(:last-child) {
     margin-block-end: 16px;
@@ -800,7 +811,6 @@ article.container::before {
     padding: 16px;
   }
 }
-
 @media (min-width: 1200px) {
   :root {
     --heading: 8rem;
@@ -903,7 +913,6 @@ article.container::before {
 
   main {
     height: calc(100vh - 120px);
-    height: calc(100svh - 120px);
   }
 
   article.container {
@@ -935,7 +944,6 @@ article.container::before {
     gap: 16px;
   }
 }
-
 @media (min-width: 1400px) {
   .highlight-list {
     grid-template-columns: repeat(4, 1fr);
