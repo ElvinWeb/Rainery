@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weatherist app</title>
+    <title>Rainery // Get the forecast you deserve</title>
     <!--- favicon --->
     <link
       rel="shortcut icon"
-      href="./assets/Images/large_weatherist.png"
+      href="./assets/Images/icon_rainery.png"
       type="image/svg+xml"
     />
     <!--- Google font link --->
@@ -25,7 +25,7 @@
     <header class="header">
       <div class="container">
         <a href="#" class="logo">
-          <img src="./assets/Images/large_weatherist.png" alt="" />
+          <img src="./assets/Images/logo_rainery.png" alt="" />
         </a>
         <div class="search-view" data-search-view>
           <div class="search-wrapper">
@@ -70,7 +70,7 @@
     </header>
     <!----- Main ---->
     <main>
-      <article class="container main-container">
+      <article class="container main-container" data-container>
         <div class="content-left">
           <!----- Current Weather ---->
           <section
@@ -82,7 +82,7 @@
           <section
             class="section forecast"
             aria-label="data-5-day-forecast"
-            data-current-weather
+            data-5-day-forecast
           ></section>
         </div>
 
@@ -101,10 +101,9 @@
           ></section>
           <!----- Footer ---->
           <footer class="footer">
-            <p class="body-3">Created by ElvinWeb</p>
             <p class="body-3">
               Powered by
-              <a href="https://openweathermap.org/api" target="_blank">
+              <a href="https://openweathermap.org/api" target="_blank" class="api_logo">
                 <img
                   src="./assets/Images/openweather.png"
                   width="150"
@@ -120,11 +119,11 @@
         <div class="loading" data-loading></div>
       </article>
     </main>
-
+    <!----- Error ---->
     <section class="error-content" data-error-content>
       <h2 class="heading">404</h2>
       <p class="body-1">Page Not Found!</p>
-      <a href="#" class="btn-primary">
+      <a href="#/weather?lat=40.3876&lon=49.80725" class="btn-primary">
         <span class="span">Go Home</span>
       </a>
     </section>
