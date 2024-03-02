@@ -313,7 +313,6 @@ body {
 .header .container {
   justify-content: space-between;
   box-shadow: var(--shadow-3);
-  height: 100px;
 }
 .header-actions {
   gap: 16px;
@@ -620,8 +619,8 @@ article.container::before {
   color: var(--on-surface-variant);
   text-align: center;
   gap: 12px 24px;
-  margin-block-start: 28px;
   display: none;
+  padding: 10px 0px 40px 0px;
 }
 .fade-in .footer {
   display: flex;
@@ -716,7 +715,7 @@ article.container::before {
     top: 0;
   }
   .section:not(:last-child) {
-    margin-block: 35px;
+    margin-block: 20px;
   }
   .forecast-card .card-item:not(:last-child) {
     margin-block-end: 16px;
@@ -752,6 +751,9 @@ article.container::before {
   .hourly-forecast .card-sm {
     padding: 16px;
   }
+  .footer{
+    padding: 10px 0px 10px 0px;
+  }
 }
 @media (min-width: 1200px) {
   :root {
@@ -771,7 +773,7 @@ article.container::before {
     --title-1: 3.6rem;
   }
   .highlight-card.two .card-item {
-    column-gap: 24px;
+    column-gap: 10px;
   }
   .header .icon-btn {
     display: none;
@@ -781,13 +783,11 @@ article.container::before {
   }
   .header {
     position: relative;
-    height: 95px;
     z-index: 4;
     box-shadow: var(--shadow-3);
   }
   .header .container {
     padding-block: 0;
-    height: 100%;
   }
   .search-view,
   .search-view.active {
