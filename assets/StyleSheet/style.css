@@ -396,6 +396,10 @@ body {
 .search-view .view-list {
   padding-block: 8px 16px;
 }
+.search-view .view-list .error-message {
+  text-align: center;
+  padding: 10px 20px 0px 0px;
+}
 .search-view .view-item {
   position: relative;
   height: 56px;
@@ -751,7 +755,7 @@ article.container::before {
   .hourly-forecast .card-sm {
     padding: 16px;
   }
-  .footer{
+  .footer {
     padding: 10px 0px 10px 0px;
   }
 }

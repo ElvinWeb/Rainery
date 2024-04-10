@@ -1,6 +1,17 @@
 "use strict";
-import { fetchData, url } from "./api.js";
-import * as module from "./module.js";
+import { TIMEOUT_SEC, DEFAULT_LOC } from "./config.js";
+import {
+  getDate,
+  getHours,
+  getTime,
+  mps_to_kmh,
+  aqiText,
+  url,
+  fetchData,
+  addEventOnElements,
+  monthNames,
+  weekDayNames,
+} from "./helpers.js";
 
 const weatherApp = (function () {
   //private variables and functions
@@ -20,8 +31,6 @@ const weatherApp = (function () {
   const highlightSection = document.querySelector("[data-highlights]");
   const hourlySection = document.querySelector("[data-hourly-forecast]");
   const forecastSection = document.querySelector("[data-5-day-forecast]");
-  const serachTimeoutDuration = 500;
-  const defaultLocation = "#/weather?lat=40.3876&lon=49.80725";
   let searchTimeout = null;
   let airPollutionItems;
 
@@ -40,18 +49,24 @@ const weatherApp = (function () {
     if (searchField.value) {
       searchTimeout = setTimeout(() => {
         fetchData(url.geo(searchField.value), function (locations) {
+          console.log(locations);
           searchField.classList.remove("searching");
           searchResult.classList.add("active");
           searchResult.innerHTML = `
             <ul class="view-list" data-search-list></ul>
           `;
           const items = [];
+          if (locations.length === 0) {
+            const errLi = document.createElement("li");
+            errLi.classList.add("error-message");
+            errLi.innerHTML = `<p class="body-1">No such place was found!</p>`;
+            searchResult.querySelector("[data-search-list]").append(errLi);
+          } else {
+            for (const { name, lat, lon, country, state } of locations) {
+              const searchItem = document.createElement("li");
+              searchItem.classList.add("view-item");
 
-          for (const { name, lat, lon, country, state } of locations) {
-            const searchItem = document.createElement("li");
-            searchItem.classList.add("view-item");
-
-            searchItem.innerHTML = `
+              searchItem.innerHTML = `
               <span class="m-icon">location_on</span>
   
               <div>
@@ -63,13 +78,14 @@ const weatherApp = (function () {
               <a href="#/weather?lat=${lat}&lon=${lon}" class="item-link has-state" aria-label="${name} weather" data-search-toggler></a>
             `;
 
-            searchResult
-              .querySelector("[data-search-list]")
-              .appendChild(searchItem);
-            items.push(searchItem.querySelector("[data-search-toggler]"));
+              searchResult
+                .querySelector("[data-search-list]")
+                .appendChild(searchItem);
+              items.push(searchItem.querySelector("[data-search-toggler]"));
+            }
           }
 
-          module.addEventOnElements(items, "click", function () {
+          addEventOnElements(items, "click", function () {
             _toggleSearch();
             searchResult.classList.remove("active");
             searchField.value = "";
@@ -77,7 +93,7 @@ const weatherApp = (function () {
             searchResult.querySelector("[data-search-list]").innerHTML = " ";
           });
         });
-      }, serachTimeoutDuration);
+      }, TIMEOUT_SEC);
     }
   };
   const _currentLocation = function () {
@@ -87,7 +103,7 @@ const weatherApp = (function () {
         _updateWeather(`lat=${latitude}`, `lon=${longitude}`);
       },
       (err) => {
-        window.location.hash = defaultLocation;
+        window.location.hash = DEFAULT_LOC;
       }
     );
   };
@@ -102,7 +118,6 @@ const weatherApp = (function () {
       feels_like,
     ] = airPollutionItems;
 
-    console.log(airPollution);
     const [
       {
         main: { aqi },
@@ -156,9 +171,9 @@ const weatherApp = (function () {
           </div>
 
           <span class="badge aqi-${aqi} label-${aqi}" title="${
-      module.aqiText[aqi].message
+      aqiText[aqi].message
     }">
-            ${module.aqiText[aqi].level}
+            ${aqiText[aqi].level}
           </span>
 
         </div>
@@ -175,10 +190,7 @@ const weatherApp = (function () {
               <div>
                 <p class="label-1">Sunrise</p>
 
-                <p class="title-1">${module.getTime(
-                  sunriseUnixUTC,
-                  timezone
-                )}</p>
+                <p class="title-1">${getTime(sunriseUnixUTC, timezone)}</p>
               </div>
             </div>
 
@@ -188,10 +200,7 @@ const weatherApp = (function () {
               <div>
                 <p class="label-1">Sunset</p>
 
-                <p class="title-1">${module.getTime(
-                  sunsetUnixUTC,
-                  timezone
-                )}</p>
+                <p class="title-1">${getTime(sunsetUnixUTC, timezone)}</p>
               </div>
             </div>
 
@@ -284,7 +293,7 @@ const weatherApp = (function () {
       tempLi.innerHTML = `
         <div class="card card-sm slider-card">
 
-          <p class="body-3">${module.getHours(dateTimeUnix, timezone)}</p>
+          <p class="body-3">${getHours(dateTimeUnix, timezone)}</p>
 
           <img src="./assets/images/weather_icons/${icon}.png" width="48" height="48" loading="lazy" alt="${description}"
             class="weather-icon" title="${description}">
@@ -300,14 +309,14 @@ const weatherApp = (function () {
       windLi.innerHTML = `
       <div class="card card-sm slider-card">
 
-        <p class="body-3">${module.getHours(dateTimeUnix, timezone)}</p>
+        <p class="body-3">${getHours(dateTimeUnix, timezone)}</p>
 
         <img src="./assets/images/weather_icons/direction.png" width="48" height="48" loading="lazy" alt="direction"
           class="weather-icon" style="transform: rotate(${
             windDirection - 180
           }deg)">
 
-        <p class="body-3">${parseInt(module.mps_to_kmh(windSpeed))} km/h</p>
+        <p class="body-3">${parseInt(mps_to_kmh(windSpeed))} km/h</p>
 
       </div>
       `;
@@ -345,10 +354,10 @@ const weatherApp = (function () {
         </div>
 
         <p class="label-1">${date.getDate()} ${
-        module.monthNames[date.getUTCMonth()]
+        monthNames[date.getUTCMonth()]
       }</p>
 
-        <p class="label-1">${module.weekDayNames[date.getUTCDay()]}</p>
+        <p class="label-1">${weekDayNames[date.getUTCDay()]}</p>
       `;
       forecastSection.querySelector("[data-forecast-list]").appendChild(li);
     }
@@ -414,10 +423,7 @@ const weatherApp = (function () {
         <ul class="meta-list">
           <li class="meta-item">
             <span class="m-icon">calendar_today</span>
-            <p class="title-3 meta-text">${module.getDate(
-              dateUnix,
-              timezone
-            )}</p>
+            <p class="title-3 meta-text">${getDate(dateUnix, timezone)}</p>
           </li>
           <li class="meta-item">
             <span class="m-icon">location_on</span>
@@ -426,8 +432,8 @@ const weatherApp = (function () {
         </ul>
       `;
 
-      fetchData(url.reverseGeo(lat, lon), _reverseGeo);
       currentWeatherSection.appendChild(card);
+      fetchData(url.reverseGeo(lat, lon), _reverseGeo);
       fetchData(url.airPollution(lat, lon), _airPollution);
       fetchData(url.forecast(lat, lon), _forecast);
     });
@@ -448,7 +454,7 @@ const weatherApp = (function () {
     ["/weather", _searchedLocation],
   ]);
   const init = function () {
-    module.addEventOnElements(searchTogglers, "click", _toggleSearch);
+    addEventOnElements(searchTogglers, "click", _toggleSearch);
     window.addEventListener("hashchange", _checkHash);
     window.addEventListener("load", () => {
       if (!window.location.hash) {
@@ -459,7 +465,6 @@ const weatherApp = (function () {
     });
     searchField.addEventListener("input", _searchForecast);
   };
-
   return {
     init: init,
   };

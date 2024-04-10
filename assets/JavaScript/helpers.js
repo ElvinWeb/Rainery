@@ -1,4 +1,6 @@
 "use strict";
+import { API_KEY, API_URL, GEO_API_URL } from "./config.js";
+
 export const weekDayNames = [
   "Sunday",
   "Monday",
@@ -79,4 +81,29 @@ export const addEventOnElements = function (elements, eventType, callBack) {
   for (const element of elements) {
     element.addEventListener(eventType, callBack);
   }
+};
+export const fetchData = function (URL, callback) {
+  fetch(`${URL}&appid=${API_KEY}`)
+    .then((res) => res.json())
+    .then((data) => callback(data))
+    .catch((err) => {
+      console.log(err);
+    });
+};
+export const url = {
+  currentWeather(lat, lon) {
+    return `${API_URL}/weather?${lat}&${lon}&units=metric`;
+  },
+  forecast(lat, lon) {
+    return `${API_URL}/forecast?${lat}&${lon}&units=metric`;
+  },
+  airPollution(lat, lon) {
+    return `${API_URL}/air_pollution?${lat}&${lon}&units=metric`;
+  },
+  reverseGeo(lat, lon) {
+    return `${GEO_API_URL}/reverse?${lat}&${lon}&limit=5`;
+  },
+  geo(city_name) {
+    return `${GEO_API_URL}/direct?q=${city_name}&limit=5`;
+  },
 };
