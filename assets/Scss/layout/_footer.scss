@@ -1,0 +1,13 @@
+.footer {
+    color: var(--on-surface-variant);
+    text-align: center;
+    gap: 12px 24px;
+    display: flex;
+    padding: 15px 0px 50px 0px;
+    @extend %flex-box;
+
+    .body-3:last-child {
+        gap: 6px;
+        @extend %flex-box;
+    }
+}

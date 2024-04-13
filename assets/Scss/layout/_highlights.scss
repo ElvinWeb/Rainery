@@ -1,0 +1,89 @@
+.highlights .m-icon {
+    font-size: 3.2rem;
+}
+
+.highlight-list {
+    display: grid;
+    gap: 20px;
+}
+
+.highlight-list .title-3 {
+    color: $on-surface-variant;
+    margin-block-end: 20px;
+}
+
+.highlights .card-sm {
+    background-color: $black-alpha-10;
+    position: relative;
+}
+
+.highlight-card :is(.wrapper, .card-list, .card-item) {
+    display: flex;
+    align-items: center;
+}
+
+.highlight-card .wrapper {
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.highlight-card .card-list {
+    flex-wrap: wrap;
+    flex-grow: 1;
+    row-gap: 8px;
+}
+
+.highlight-card .card-item {
+    width: 50%;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.highlight-card .label-1 {
+    color: $on-surface-variant;
+}
+
+.badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 2px 12px;
+    border-radius: $radius-pill;
+    font-weight: $weight-semiBold;
+    cursor: help;
+}
+
+.badge.aqi-1 {
+    background-color: $bg-aqi-1;
+    color: $on-bg-aqi-1;
+}
+
+.badge.aqi-2 {
+    background-color: $bg-aqi-2;
+    color: $on-bg-aqi-2;
+}
+
+.badge.aqi-3 {
+    background-color: $bg-aqi-3;
+    color: $on-bg-aqi-3;
+}
+
+.badge.aqi-4 {
+    background-color: $bg-aqi-4;
+    color: $on-bg-aqi-4;
+}
+
+.badge.aqi-5 {
+    background-color: $bg-aqi-5;
+    color: $on-bg-aqi-5;
+}
+
+.highlight-card.two .card-item {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+
+.highlight-card.two .label-1 {
+    margin-block-end: 4px;
+}

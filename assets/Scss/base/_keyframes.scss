@@ -1,0 +1,29 @@
+@keyframes ripple {
+    0% {
+        clip-path: circle(0% at 50% 50%);
+    }
+
+    100% {
+        clip-path: circle(100% at 50% 50%);
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes loading {
+    0% {
+        transform: translateY(-50%) rotate(0);
+    }
+
+    100% {
+        transform: translateY(-50%) rotate(1turn);
+    }
+}

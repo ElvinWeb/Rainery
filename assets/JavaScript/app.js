@@ -34,7 +34,10 @@ const weatherApp = (function () {
   let searchTimeout = null;
   let airPollutionItems;
 
-  const _toggleSearch = () => searchView.classList.toggle("active");
+  const _toggleSearch = function () {
+    searchView.classList.toggle("active");
+    searchField.focus();
+  };
   const _searchForecast = function () {
     searchTimeout ?? clearTimeout(searchTimeout);
 
@@ -95,17 +98,6 @@ const weatherApp = (function () {
         });
       }, TIMEOUT_SEC);
     }
-  };
-  const _currentLocation = function () {
-    window.navigator.geolocation.getCurrentPosition(
-      (res) => {
-        const { latitude, longitude } = res.coords;
-        _updateWeather(`lat=${latitude}`, `lon=${longitude}`);
-      },
-      (err) => {
-        window.location.hash = DEFAULT_LOC;
-      }
-    );
   };
   const _airPollution = function (airPollution) {
     const [
@@ -372,7 +364,6 @@ const weatherApp = (function () {
   const _updateWeather = function (lat, lon) {
     loading.style.display = "grid";
     container.style.overflowY = "hidden";
-    container.classList.remove("fade-in");
     errorContent.style.display = "none";
 
     currentWeatherSection.innerHTML = "";
@@ -399,6 +390,7 @@ const weatherApp = (function () {
         timezone,
       } = currentWeather;
       const [{ description, icon }] = weather;
+
       airPollutionItems = [
         sunriseUnixUTC,
         sunsetUnixUTC,
@@ -414,7 +406,7 @@ const weatherApp = (function () {
 
       card.innerHTML = `
         <h2 class="title-2 card-title">Now</h2>
-        <div class="weapper">
+        <div class="wrapper">
           <p class="heading">${parseInt(temp)}&deg;<sup>c</sup></p>
           <img src="./assets/images/weather_icons/${icon}.png" width="64" height="64" alt="${description}"
             class="weather-icon">
@@ -425,7 +417,7 @@ const weatherApp = (function () {
             <span class="m-icon">calendar_today</span>
             <p class="title-3 meta-text">${getDate(dateUnix, timezone)}</p>
           </li>
-          <li class="meta-item">
+          <li class="mmeta-item">
             <span class="m-icon">location_on</span>
             <p class="title-3 meta-text" data-location></p>
           </li>
@@ -439,6 +431,17 @@ const weatherApp = (function () {
     });
   };
   const _searchedLocation = (query) => _updateWeather(...query.split("&"));
+  const _currentLocation = function () {
+    window.navigator.geolocation.getCurrentPosition(
+      (res) => {
+        const { latitude, longitude } = res.coords;
+        _updateWeather(`lat=${latitude}`, `lon=${longitude}`);
+      },
+      (err) => {
+        window.location.hash = DEFAULT_LOC;
+      }
+    );
+  };
   const _checkHash = function () {
     const requestUrl = window.location.hash.slice(1);
 

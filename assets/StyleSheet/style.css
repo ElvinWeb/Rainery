@@ -302,7 +302,7 @@ body {
 .header .btn-primary .span {
   display: none;
 }
-.logo img {
+.logo img{
   width: 150px;
 }
 .header .container,
@@ -454,7 +454,7 @@ article.container::before {
   margin-block-end: 16px;
 }
 /*--------- Current Weather ---------*/
-.current-weather-card .weapper {
+.current-weather-card .wrapper {
   margin-block: 12px;
   display: flex;
   gap: 8px;
@@ -623,11 +623,8 @@ article.container::before {
   color: var(--on-surface-variant);
   text-align: center;
   gap: 12px 24px;
-  display: none;
-  padding: 10px 0px 40px 0px;
-}
-.fade-in .footer {
   display: flex;
+  padding: 15px 0px 50px 0px;
 }
 .footer .body-3:last-child {
   gap: 6px;
