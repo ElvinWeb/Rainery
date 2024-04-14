@@ -57,30 +57,38 @@ sup {
 }
 
 html {
-    font-family: var(--ff-nunito-sans);
+    font-family: $ff-nunito-sans;
     font-size: 10px;
     scroll-behavior: smooth;
 }
 
 body {
-    background-color: var(--background);
-    color: var(--on-background);
-    font-size: var(--body-3);
+    background-color: $background;
+    color: $on-background;
+    font-size: $body-3;
     overflow: hidden;
 }
 
 main {
     height: calc(100vh - 80px);
     overflow: hidden;
+
+    @include breakpoint("tablet") {
+        height: calc(100vh - 96px);
+    }
+
+    @include breakpoint("desktop") {
+        height: calc(100vh - 120px);
+    }
 }
 
 :focus-visible {
-    outline: 2px solid var(--white);
+    outline: 2px solid $white;
     outline-offset: 2px;
 }
 
 ::selection {
-    background-color: var(--white-alpha-8);
+    background-color: $white-alpha-8;
 }
 
 ::-webkit-scrollbar {
@@ -89,6 +97,6 @@ main {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: var(--white-alpha-8);
-    border-radius: var(--radius-pill);
+    background-color: $white-alpha-8;
+    border-radius: $radius-pill;
 }

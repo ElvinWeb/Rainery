@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--background);
+    background-color: $background;
     place-items: center;
     z-index: 1;
     display: none;
@@ -13,9 +13,9 @@
         content: "";
         width: 48px;
         height: 48px;
-        border: 4px solid var(--on-background);
+        border: 4px solid $on-background;
         border-block-start-color: transparent;
-        border-radius: var(--radius-circle);
+        border-radius: $radius-circle;
         animation: loading 500ms linear infinite;
     }
 }

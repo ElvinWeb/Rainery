@@ -1,25 +1,57 @@
 .header {
 
+    @include breakpoint("desktop") {
+        position: relative;
+        z-index: 4;
+        box-shadow: $shadow-3;
+    }
+
     .logo img {
         width: 150px;
+
+        @include breakpoint("desktop") {
+            width: 200px;
+        }
     }
 
     .container {
         justify-content: space-between;
-        box-shadow: var(--shadow-3);
-        @extend %align-items;
+        box-shadow: $shadow-3;
+        @extend %align-center;
+
+        @include breakpoint("desktop") {
+            padding-block: 0;
+        }
     }
 
     .header-actions {
         gap: 16px;
-        @extend %align-items;
+        @extend %align-center;
+
+        @include breakpoint("tablet") {
+            gap: 24px;
+        }
+
+        .icon-btn {
+            @include breakpoint("desktop") {
+                display: none;
+            }
+        }
     }
 
     .btn-primary {
         padding-inline: 12px;
 
+        @include breakpoint("tablet") {
+            padding-inline: 16px 24px;
+        }
+
         .span {
             display: none;
+
+            @include breakpoint("tablet") {
+                display: block;
+            }
         }
     }
 
@@ -29,22 +61,59 @@
         left: 0;
         width: 100%;
         height: 100vh;
-        background-color: var(--surface);
-        color: var(--on-surface);
+        background-color: $surface;
+        color: $on-surface;
         clip-path: circle(4% at calc(100% - 102px) 5%);
         opacity: 0;
         visibility: hidden;
         z-index: 4;
         transition: clip-path 500ms ease;
 
+        @include breakpoint("tablet") {
+            clip-path: circle(3% at calc(100% - 273px) 6%);
+        }
+
+        @include breakpoint("desktop") {
+            all: unset;
+            display: block;
+            position: relative;
+            width: 500px;
+            animation: none;
+        }
+
+        &:focus-within .search-result.active {
+            @include breakpoint("desktop") {
+                display: block;
+            }
+        }
+
         &.active {
             opacity: 1;
             visibility: visible;
             clip-path: circle(130% at 73% 5%);
+
+            @include breakpoint("desktop") {
+                all: unset;
+                display: block;
+                position: relative;
+                width: 500px;
+                animation: none;
+            }
         }
 
         .view-list {
             padding-block: 8px 16px;
+
+            @include breakpoint("desktop") {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                max-height: 360px;
+                border-radius: 0 0 $radius-28 $radius-28;
+                border-block-start: 1px solid $outline;
+                overflow-y: overlay;
+            }
 
             .error-message {
                 text-align: center;
@@ -61,7 +130,7 @@
                 padding-inline: 16px 24px;
 
                 :is(.m-icon, .item-subtitle) {
-                    color: var(--on-surface-variant);
+                    color: $on-surface-variant;
                 }
 
                 .item-link {
@@ -71,12 +140,27 @@
                 }
             }
 
-        }
+            &:empty {
+                @include breakpoint("desktop") {
+                    min-height: 120px;
+                }
+            }
 
+            &::-webkit-scrollbar-button {
+                @include breakpoint("desktop") {
+                    height: 20px;
+                }
+            }
+        }
 
         &-wrapper {
             position: relative;
-            border-block-end: 1px solid var(--outline);
+            border-block-end: 1px solid $outline;
+
+            @include breakpoint("desktop") {
+                border-block-end: none;
+            }
+
 
             &::before {
                 content: "";
@@ -86,9 +170,9 @@
                 right: 16px;
                 width: 24px;
                 height: 24px;
-                border: 3px solid var(--on-surface);
+                border: 3px solid $on-surface;
                 border-block-start-color: transparent;
-                border-radius: var(--radius-circle);
+                border-radius: $radius-circle;
                 animation: loading 500ms linear infinite;
                 display: none;
             }
@@ -106,11 +190,19 @@
 
             >.m-icon {
                 display: none;
+
+                @include breakpoint("desktop") {
+                    display: block;
+                }
             }
 
             .icon-btn {
                 background-color: transparent;
                 box-shadow: none;
+
+                @include breakpoint("desktop") {
+                    display: none;
+                }
             }
         }
 
@@ -120,8 +212,12 @@
             padding-inline: 56px 16px;
             outline: none;
 
+            @include breakpoint("desktop") {
+                height: 56px;
+            }
+
             &::placeholder {
-                color: var(--on-surface-variant-2);
+                color: $on-surface-variant-2;
             }
 
             &::-webkit-search-cancel-button {
@@ -129,6 +225,43 @@
             }
         }
 
+        &-result,
+        &:not(:focus-within) &-result {
+            @include breakpoint("desktop") {
+                display: none;
+            }
+        }
+
+        &:has(.search-result.active):focus-within &-field {
+            @include breakpoint("desktop") {
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+        }
+
+        &:is(:hover, :has(.view-list):hover) {
+
+            @include breakpoint("desktop") {
+                filter: drop-shadow($shadow-1);
+            }
+        }
+
+        &:is(:focus-within, :has(.view-list):focus-within) {
+            @include breakpoint("desktop") {
+                filter: drop-shadow($shadow-2);
+            }
+        }
+
     }
 
+}
+
+
+.search-field,
+.search,
+.view-list {
+    @include breakpoint("desktop") {
+        background-color: $surface;
+        border-radius: $radius-28;
+    }
 }

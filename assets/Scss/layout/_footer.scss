@@ -6,6 +6,10 @@
     padding: 15px 0px 50px 0px;
     @extend %flex-box;
 
+    @include breakpoint("tablet") {
+        padding: 10px 0px 10px 0px;
+    }
+
     .body-3:last-child {
         gap: 6px;
         @extend %flex-box;

@@ -302,7 +302,7 @@ body {
 .header .btn-primary .span {
   display: none;
 }
-.logo img{
+.logo img {
   width: 150px;
 }
 .header .container,
@@ -320,7 +320,7 @@ body {
 .header .btn-primary {
   padding-inline: 12px;
 }
-.search-view {
+.search {
   position: fixed;
   top: 0;
   left: 0;
@@ -334,7 +334,7 @@ body {
   z-index: 4;
   transition: clip-path 500ms ease;
 }
-.search-view.active {
+.search.active {
   opacity: 1;
   visibility: visible;
   clip-path: circle(130% at 73% 5%);
@@ -393,14 +393,14 @@ body {
   background-color: transparent;
   box-shadow: none;
 }
-.search-view .view-list {
+.search .view-list {
   padding-block: 8px 16px;
 }
-.search-view .view-list .error-message {
+.search .view-list .error-message {
   text-align: center;
   padding: 10px 20px 0px 0px;
 }
-.search-view .view-item {
+.search .view-item {
   position: relative;
   height: 56px;
   display: flex;
@@ -409,10 +409,10 @@ body {
   gap: 16px;
   padding-inline: 16px 24px;
 }
-.search-view .view-item :is(.m-icon, .item-subtitle) {
+.search .view-item :is(.m-icon, .item-subtitle) {
   color: var(--on-surface-variant);
 }
-.search-view .view-item .item-link {
+.search .view-item .item-link {
   position: absolute;
   inset: 0;
   box-shadow: none;
@@ -699,7 +699,7 @@ article.container::before {
   .header .btn-primary .span {
     display: block;
   }
-  .search-view {
+  .search {
     clip-path: circle(3% at calc(100% - 273px) 6%);
   }
   main {
@@ -711,10 +711,12 @@ article.container::before {
     align-items: flex-start;
     gap: 24px;
   }
+  /* bir bu */
   .content-left {
     position: sticky;
     top: 0;
   }
+  /* bir bu */
   .section:not(:last-child) {
     margin-block: 20px;
   }
@@ -724,14 +726,14 @@ article.container::before {
   .highlight-list {
     grid-template-columns: 1fr 1fr;
   }
+  .highlights .m-icon {
+    font-size: 3.6rem;
+  }
   .highlight-card:nth-child(-n + 2) {
     grid-column: span 2;
   }
   .highlight-card:nth-child(n + 3) {
     height: 120px;
-  }
-  .highlights .m-icon {
-    font-size: 3.6rem;
   }
   .highlight-card.one .card-item {
     width: 25%;
@@ -790,8 +792,8 @@ article.container::before {
   .header .container {
     padding-block: 0;
   }
-  .search-view,
-  .search-view.active {
+  .search,
+  .search.active {
     all: unset;
     display: block;
     position: relative;
@@ -805,7 +807,7 @@ article.container::before {
     display: block;
   }
   .search-field,
-  .search-view,
+  .search,
   .view-list {
     background-color: var(--surface);
     border-radius: var(--radius-28);
@@ -818,16 +820,16 @@ article.container::before {
     display: none;
   }
 
-  .search-view:focus-within .search-result.active {
+  .search:focus-within .search-result.active {
     display: block;
   }
 
-  .search-view:has(.search-result.active):focus-within .search-field {
+  .search:has(.search-result.active):focus-within .search-field {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
 
-  .search-view .view-list {
+  .search .view-list {
     position: absolute;
     top: 100%;
     left: 0;
@@ -838,19 +840,19 @@ article.container::before {
     overflow-y: overlay;
   }
 
-  .search-view .view-list:empty {
+  .search .view-list:empty {
     min-height: 120px;
   }
 
-  .search-view .view-list::-webkit-scrollbar-button {
+  .search .view-list::-webkit-scrollbar-button {
     height: 20px;
   }
 
-  .search-view:is(:hover, :has(.view-list):hover) {
+  .search:is(:hover, :has(.view-list):hover) {
     filter: drop-shadow(var(--shadow-1));
   }
 
-  .search-view:is(:focus-within, :has(.view-list):focus-within) {
+  .search:is(:focus-within, :has(.view-list):focus-within) {
     filter: drop-shadow(var(--shadow-2));
   }
 

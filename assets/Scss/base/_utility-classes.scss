@@ -1,3 +1,102 @@
-.section:not(:last-child) {
-    margin-block-end: 16px;
+.container {
+    max-width: 1600px;
+    width: 100%;
+    margin-inline: auto;
+    padding: 16px;
+
+    @include breakpoint("tablet") {
+        padding: 0 24px;
+    }
+
+    @include breakpoint("desktop") {
+        padding: 40px;
+    }
 }
+
+.has-state {
+    position: relative;
+
+    &:hover {
+        box-shadow: $shadow-1;
+
+        &::before {
+            background-color: $white-alpha-4;
+        }
+    }
+
+    &:is(:focus, :focus-visible) {
+        box-shadow: none;
+
+        &::before {
+            background-color: $white-alpha-8;
+            animation: ripple 250ms ease forwards;
+        }
+    }
+
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        clip-path: circle(100% at 50% 50%);
+        transition: $transition-short;
+    }
+
+
+}
+
+.heading {
+    color: $white;
+    font-size: $heading;
+    line-height: 1.1;
+}
+
+.title-1 {
+    font-size: $title-1;
+
+    @include breakpoint("tablet") {
+        font-size: 2.4rem;
+    }
+
+    @include breakpoint("desktop") {
+        font-size: 3.6rem;
+    }
+}
+
+.title-2 {
+    font-size: $title-2;
+    margin-block-end: 12px;
+}
+
+.title-3 {
+    font-size: $title-3;
+    font-weight: $weight-semiBold;
+}
+
+.body-1 {
+    font-size: $body-1;
+}
+
+.body-2 {
+    font-size: $body-2;
+    font-weight: $weight-semiBold;
+}
+
+.body-3 {
+    font-size: $body-3;
+}
+
+.label-1 {
+    font-size: $label-1;
+}
+
+.label-2 {
+    font-size: $label-2;
+}
+
+.fade-in {
+    animation: fade-in 250ms ease forwards;
+}
+
+

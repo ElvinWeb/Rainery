@@ -1,0 +1,37 @@
+.icon-btn {
+    background-color: $white-alpha-8;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: $radius-circle;
+}
+
+
+.btn-primary {
+    background-color: $primary;
+    color: $white;
+    height: 48px;
+    line-height: 48px;
+    max-width: max-content;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-inline: 16px;
+    border-radius: $radius-pill;
+
+    .span {
+        font-weight: $weight-semiBold;
+    }
+
+    &[disabled] {
+        background-color: $outline;
+        color: $on-surface-variant;
+        cursor: not-allowed;
+
+        &::before {
+            display: none;
+        }
+    }
+
+}

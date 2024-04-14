@@ -1,0 +1,193 @@
+.highlight-card {
+
+    :is(.wrapper, .card-list, .card-item) {
+        display: flex;
+        align-items: center;
+    }
+
+    .wrapper {
+        justify-content: space-between;
+        gap: 16px;
+    }
+    
+    .card-item {
+        width: 50%;
+        justify-content: flex-end;
+        gap: 4px;
+    }
+
+    .label-1 {
+        color: $on-surface-variant;
+    }
+
+    &.two {
+
+        .card-item {
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+
+            @include breakpoint("desktop") {
+                column-gap: 10px;
+            }
+        }
+
+        .label-1 {
+            margin-block-end: 4px;
+        }
+    }
+
+    .card-list {
+        flex-wrap: wrap;
+        flex-grow: 1;
+        row-gap: 8px;
+    }
+
+
+    &:nth-child(-n + 2) {
+        @include breakpoint("tablet") {
+            grid-column: span 2;
+        }
+
+        @include breakpoint("desktop") {
+            height: 200px;
+        }
+    }
+
+    &:nth-child(n + 3) {
+        @include breakpoint("tablet") {
+            height: 120px;
+        }
+
+        @include breakpoint("desktop") {
+            height: 150px;
+        }
+    }
+
+    &.one .card-item {
+        @include breakpoint("tablet") {
+            width: 25%;
+            flex-direction: column-reverse;
+            gap: 8px;
+        }
+    }
+
+    .m-icon {
+        @include breakpoint("desktop") {
+            font-size: 4.8rem;
+        }
+    }
+
+}
+
+.forecast-card {
+
+    .title-2 {
+        margin-block-end: 0;
+
+        @include breakpoint("desktop") {
+            font-size: 2.2rem;
+        }
+
+    }
+
+    :is(.card-item, .icon-wrapper) {
+        display: flex;
+        align-items: center;
+    }
+
+    .card-item:not(:last-child) {
+        margin-block-end: 12px;
+
+        @include breakpoint("tablet") {
+            margin-block-end: 16px;
+        }
+    }
+
+    .icon-wrapper {
+        gap: 8px;
+    }
+
+    .label-1 {
+        color: $on-surface-variant;
+        font-weight: $weight-semiBold;
+    }
+
+    .card-item>.label-1 {
+        width: 100%;
+        text-align: right;
+    }
+}
+
+.current-weather-card {
+
+    .wrapper {
+        margin-block: 12px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .weather-icon {
+        margin-inline: auto;
+    }
+
+    >.body-3 {
+        text-transform: capitalize;
+    }
+
+    .meta-list {
+        margin-block-start: 16px;
+        padding-block-start: 16px;
+        border-block-start: 1px solid $outline;
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            &:not(:last-child) {
+                margin-block-end: 12px;
+            }
+        }
+
+        .meta-text {
+            color: $on-surface-variant;
+        }
+    }
+
+}
+
+.card {
+    background-color: $surface;
+    color: $on-surface;
+    box-shadow: $shadow-2;
+}
+
+.card-lg {
+    border-radius: $radius-28;
+    padding: 20px;
+
+    @include breakpoint("tablet") {
+        padding: 24px;
+    }
+
+    @include breakpoint("desktop") {
+        padding: 36px;
+    }
+}
+
+.card-sm {
+    border-radius: $radius-16;
+    padding: 16px;
+
+    @include breakpoint("tablet") {
+        padding: 20px;
+        display: grid;
+        grid-template-rows: min-content 1fr;
+    }
+
+    @include breakpoint("desktop") {
+        padding: 24px;
+    }
+}

@@ -1,46 +1,34 @@
-.highlights .m-icon {
-    font-size: 3.2rem;
-}
+.highlights {
+    .m-icon {
+        font-size: 3.2rem;
 
-.highlight-list {
-    display: grid;
-    gap: 20px;
-}
+        @include breakpoint("tablet") {
+            font-size: 3.6rem;
+        }
+    }
 
-.highlight-list .title-3 {
-    color: $on-surface-variant;
-    margin-block-end: 20px;
-}
+    .highlight-list {
+        display: grid;
+        gap: 20px;
 
-.highlights .card-sm {
-    background-color: $black-alpha-10;
-    position: relative;
-}
+        @include breakpoint("tablet") {
+            grid-template-columns: 1fr 1fr;
+        }
 
-.highlight-card :is(.wrapper, .card-list, .card-item) {
-    display: flex;
-    align-items: center;
-}
+        .title-3 {
+            color: $on-surface-variant;
+            margin-block-end: 20px;
+        }
 
-.highlight-card .wrapper {
-    justify-content: space-between;
-    gap: 16px;
-}
+        @include breakpoint("large-desktop") {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
 
-.highlight-card .card-list {
-    flex-wrap: wrap;
-    flex-grow: 1;
-    row-gap: 8px;
-}
-
-.highlight-card .card-item {
-    width: 50%;
-    justify-content: flex-end;
-    gap: 4px;
-}
-
-.highlight-card .label-1 {
-    color: $on-surface-variant;
+    .card-sm {
+        background-color: $black-alpha-10;
+        position: relative;
+    }
 }
 
 .badge {
@@ -51,39 +39,40 @@
     border-radius: $radius-pill;
     font-weight: $weight-semiBold;
     cursor: help;
-}
 
-.badge.aqi-1 {
-    background-color: $bg-aqi-1;
-    color: $on-bg-aqi-1;
-}
+    @include breakpoint("tablet") {
+        top: 20px;
+        right: 20px;
+    }
 
-.badge.aqi-2 {
-    background-color: $bg-aqi-2;
-    color: $on-bg-aqi-2;
-}
+    // @each $badge in $badges {
+    //     &.#{$badge} {
+    //         background-color: $bg-#{$badge};
+    //         color: $on-bg-#{$badge};
+    //     }
+    // }
+    &.aqi-1 {
+        background-color: $bg-aqi-1;
+        color: $on-bg-aqi-1;
+    }
 
-.badge.aqi-3 {
-    background-color: $bg-aqi-3;
-    color: $on-bg-aqi-3;
-}
+    &.aqi-2 {
+        background-color: $bg-aqi-2;
+        color: $on-bg-aqi-2;
+    }
 
-.badge.aqi-4 {
-    background-color: $bg-aqi-4;
-    color: $on-bg-aqi-4;
-}
+    &.aqi-3 {
+        background-color: $bg-aqi-3;
+        color: $on-bg-aqi-3;
+    }
 
-.badge.aqi-5 {
-    background-color: $bg-aqi-5;
-    color: $on-bg-aqi-5;
-}
+    &.aqi-4 {
+        background-color: $bg-aqi-4;
+        color: $on-bg-aqi-4;
+    }
 
-.highlight-card.two .card-item {
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-}
-
-.highlight-card.two .label-1 {
-    margin-block-end: 4px;
+    &.aqi-5 {
+        background-color: $bg-aqi-5;
+        color: $on-bg-aqi-5;
+    }
 }

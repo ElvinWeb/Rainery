@@ -1,0 +1,74 @@
+.hourly-forecast {
+
+    .card-sm {
+
+        @include breakpoint("tablet") {
+            padding: 16px;
+        }
+    }
+
+    .slider-container {
+        overflow-x: auto;
+        margin-inline: -16px;
+
+        @include breakpoint("tablet") {
+            margin-inline: 0 -24px;
+            border-bottom-left-radius: $radius-16;
+            border-top-left-radius: $radius-28;
+        }
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slider-list {
+            display: flex;
+            gap: 12px;
+
+            @include breakpoint("desktop") {
+                gap: 16px;
+            }
+
+            &:first-child {
+                margin-block-end: 16px;
+            }
+
+            &::before {
+                content: "";
+                min-width: 4px;
+
+                @include breakpoint("tablet") {
+                    display: none;
+
+                }
+            }
+
+            &::after {
+                content: "";
+                min-width: 4px;
+
+                @include breakpoint("tablet") {
+                    min-width: 12px;
+
+                }
+            }
+
+            .slider-item {
+                min-width: 110px;
+                flex: 1 1 100%;
+
+                .weather-icon {
+                    margin-inline: auto;
+                    margin-block: 12px;
+                }
+            }
+
+            .slider-card {
+                text-align: center;
+            }
+
+        }
+
+    }
+
+}

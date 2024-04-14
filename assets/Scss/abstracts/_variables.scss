@@ -61,3 +61,8 @@ $radius-pill: 500px;
 $radius-circle: 50%;
 
 $transition-short: 100ms ease;
+
+$breakpoints: ("tablet": 768px,
+    "desktop": 1200px,
+    "large-desktop": 1400px);
+$badges: ("aqi-1", "aqi-2", "aqi-3", "aqi-4", "aqi-5");
