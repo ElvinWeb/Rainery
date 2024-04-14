@@ -1,0 +1,31 @@
+{
+  "name": "rainery",
+  "version": "1.0.0",
+  "description": "Realtime weather forecast application",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElvinWeb/RealTime-WeatherApp-.git"
+  },
+  "author": "Elvin Sarkarov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElvinWeb/RealTime-WeatherApp-/issues"
+  },
+  "homepage": "https://github.com/ElvinWeb/RealTime-WeatherApp-#readme",
+  "dependencies": {
+    "@parcel/resolver-glob": "^2.12.0",
+    "@parcel/transformer-image": "^2.12.0",
+    "core-js": "^3.36.1",
+    "parcel": "^2.12.0",
+    "regenerator-runtime": "^0.14.1",
+    "sass": "^1.75.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.12.0"
+  }
+}

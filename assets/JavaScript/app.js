@@ -12,6 +12,9 @@ import {
   monthNames,
   weekDayNames,
 } from "./helpers.js";
+import weather_icons from "../Images/weather_icons/*.png"
+import "core-js/stable";
+import "regenerator-runtime/runtime.js"
 
 const weatherApp = (function () {
   //private variables and functions
@@ -287,7 +290,7 @@ const weatherApp = (function () {
 
           <p class="body-3">${getHours(dateTimeUnix, timezone)}</p>
 
-          <img src="./assets/images/weather_icons/${icon}.png" width="48" height="48" loading="lazy" alt="${description}"
+          <img src="${weather_icons[icon]}" width="48" height="48" loading="lazy" alt="${description}"
             class="weather-icon" title="${description}">
 
           <p class="body-3">${parseInt(temp)}&deg;</p>
@@ -303,7 +306,7 @@ const weatherApp = (function () {
 
         <p class="body-3">${getHours(dateTimeUnix, timezone)}</p>
 
-        <img src="./assets/images/weather_icons/direction.png" width="48" height="48" loading="lazy" alt="direction"
+        <img src="${weather_icons["direction"]}" width="48" height="48" loading="lazy" alt="direction"
           class="weather-icon" style="transform: rotate(${
             windDirection - 180
           }deg)">
@@ -337,7 +340,7 @@ const weatherApp = (function () {
 
       li.innerHTML = `
         <div class="icon-wrapper">
-          <img src="./assets/images/weather_icons/${icon}.png" width="36" height="36" alt="${description}"
+          <img src="${weather_icons[icon]}" width="36" height="36" alt="${description}"
             class="weather-icon" title="${description}">
 
           <span class="span">
@@ -408,7 +411,7 @@ const weatherApp = (function () {
         <h2 class="title-2 card-title">Now</h2>
         <div class="wrapper">
           <p class="heading">${parseInt(temp)}&deg;<sup>c</sup></p>
-          <img src="./assets/images/weather_icons/${icon}.png" width="64" height="64" alt="${description}"
+          <img src="${weather_icons[icon]}" width="64" height="64" alt="${description}"
             class="weather-icon">
         </div>
         <p class="body-3">${description}</p>
@@ -417,7 +420,7 @@ const weatherApp = (function () {
             <span class="m-icon">calendar_today</span>
             <p class="title-3 meta-text">${getDate(dateUnix, timezone)}</p>
           </li>
-          <li class="mmeta-item">
+          <li class="meta-item">
             <span class="m-icon">location_on</span>
             <p class="title-3 meta-text" data-location></p>
           </li>
