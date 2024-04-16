@@ -2,7 +2,7 @@
   "name": "rainery",
   "version": "1.0.0",
   "description": "Realtime weather forecast application",
-  "main": "app.js",
+  "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html"
