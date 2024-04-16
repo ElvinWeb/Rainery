@@ -8,9 +8,8 @@
         }
     }
 
-    @include breakpoint("tablet") {
-        
-        >.title-2 {
+    >.title-2 {
+        @include breakpoint("tablet") {
             margin-block-end: 16px;
         }
     }

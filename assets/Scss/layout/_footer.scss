@@ -1,8 +1,7 @@
 .footer {
-    color: var(--on-surface-variant);
     text-align: center;
+    color: var(--on-surface-variant);
     gap: 12px 24px;
-    display: flex;
     padding: 15px 0px 50px 0px;
     @extend %flex-box;
 
@@ -14,4 +13,8 @@
         gap: 6px;
         @extend %flex-box;
     }
+}
+
+.fade-in .footer {
+    display: flex;
 }

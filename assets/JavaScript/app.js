@@ -12,9 +12,9 @@ import {
   monthNames,
   weekDayNames,
 } from "./helpers.js";
-import weather_icons from "../Images/weather_icons/*.png"
+import weather_icons from "../Images/weather_icons/*.png";
 import "core-js/stable";
-import "regenerator-runtime/runtime.js"
+import "regenerator-runtime/runtime.js";
 
 const weatherApp = (function () {
   //private variables and functions
@@ -45,8 +45,8 @@ const weatherApp = (function () {
     searchTimeout ?? clearTimeout(searchTimeout);
 
     if (!searchField.value) {
-      searchResult.classList.remove("active");
       searchResult.innerHTML = "";
+      searchResult.classList.remove("active");
       searchField.classList.remove("searching");
     } else {
       searchField.classList.add("searching");
@@ -54,53 +54,49 @@ const weatherApp = (function () {
 
     if (searchField.value) {
       searchTimeout = setTimeout(() => {
-        fetchData(url.geo(searchField.value), function (locations) {
-          console.log(locations);
-          searchField.classList.remove("searching");
-          searchResult.classList.add("active");
-          searchResult.innerHTML = `
-            <ul class="view-list" data-search-list></ul>
-          `;
-          const items = [];
-          if (locations.length === 0) {
-            const errLi = document.createElement("li");
-            errLi.classList.add("error-message");
-            errLi.innerHTML = `<p class="body-1">No such place was found!</p>`;
-            searchResult.querySelector("[data-search-list]").append(errLi);
-          } else {
-            for (const { name, lat, lon, country, state } of locations) {
-              const searchItem = document.createElement("li");
-              searchItem.classList.add("view-item");
-
-              searchItem.innerHTML = `
-              <span class="m-icon">location_on</span>
-  
-              <div>
-                <p class="item-title">${name}</p>
-  
-                <p class="label-2 item-subtitle">${state || ""} ${country}</p>
-              </div>
-  
-              <a href="#/weather?lat=${lat}&lon=${lon}" class="item-link has-state" aria-label="${name} weather" data-search-toggler></a>
-            `;
-
-              searchResult
-                .querySelector("[data-search-list]")
-                .appendChild(searchItem);
-              items.push(searchItem.querySelector("[data-search-toggler]"));
-            }
-          }
-
-          addEventOnElements(items, "click", function () {
-            _toggleSearch();
-            searchResult.classList.remove("active");
-            searchField.value = "";
-            searchField.focus();
-            searchResult.querySelector("[data-search-list]").innerHTML = " ";
-          });
-        });
+        fetchData(url.geo(searchField.value), _searchedResults);
       }, TIMEOUT_SEC);
     }
+  };
+  const _searchedResults = function (locations) {
+    searchField.classList.remove("searching");
+    searchResult.classList.add("active");
+    searchResult.innerHTML = `
+      <ul class="view-list" data-search-list></ul>
+    `;
+    const items = [];
+    if (locations.length === 0) {
+      const errLi = document.createElement("li");
+      errLi.classList.add("error-message");
+      errLi.innerHTML = `<p class="body-1">No such place was found!</p>`;
+      searchResult.querySelector("[data-search-list]").append(errLi);
+    } else {
+      for (const { name, lat, lon, country, state } of locations) {
+        const searchItem = document.createElement("li");
+        searchItem.classList.add("view-item");
+        searchItem.innerHTML = `
+        <span class="m-icon">location_on</span>
+        <div>
+          <p class="item-title">${name}</p>
+          <p class="label-2 item-subtitle">${state || ""} ${country}</p>
+        </div>
+        <a href="#/weather?lat=${lat}&lon=${lon}" class="item-link has-state" aria-label="${name} weather" data-search-toggler></a>
+      `;
+
+        searchResult
+          .querySelector("[data-search-list]")
+          .appendChild(searchItem);
+        items.push(searchItem.querySelector("[data-search-toggler]"));
+      }
+    }
+
+    addEventOnElements(items, "click", function () {
+      _toggleSearch();
+      searchResult.classList.remove("active");
+      searchField.value = "";
+      searchField.focus();
+      searchResult.querySelector("[data-search-list]").innerHTML = " ";
+    });
   };
   const _airPollution = function (airPollution) {
     const [
@@ -257,20 +253,29 @@ const weatherApp = (function () {
     highlightSection.appendChild(card);
   };
   const _forecast = function (forecast) {
+
     const {
       list: forecastList,
       city: { timezone },
     } = forecast;
 
+    _hourlyForecast(forecastList);
+    _dailyForecast(forecastList, timezone);
+
+    loading.style.display = "none";
+    container.style.overflowY = "overlay";
+    container.classList.add("fade-in");
+  };
+  const _hourlyForecast = function (forecastList, timezone) {
     hourlySection.innerHTML = `
-      <h2 class="title-2">Today at</h2>
+    <h2 class="title-2">Today at</h2>
 
-      <div class="slider-container">
-        <ul class="slider-list" data-temp></ul>
+    <div class="slider-container">
+      <ul class="slider-list" data-temp></ul>
 
-        <ul class="slider-list" data-wind></ul>
-      </div>
-    `;
+      <ul class="slider-list" data-wind></ul>
+    </div>
+  `;
 
     for (const [index, data] of forecastList.entries()) {
       if (index > 7) break;
@@ -286,45 +291,50 @@ const weatherApp = (function () {
       const tempLi = document.createElement("li");
       tempLi.classList.add("slider-item");
       tempLi.innerHTML = `
-        <div class="card card-sm slider-card">
+      <div class="card card-sm slider-card">
 
-          <p class="body-3">${getHours(dateTimeUnix, timezone)}</p>
+        <p class="body-3">${getHours(dateTimeUnix, timezone)}</p>
 
-          <img src="${weather_icons[icon]}" width="48" height="48" loading="lazy" alt="${description}"
-            class="weather-icon" title="${description}">
+        <img src="${
+          weather_icons[icon]
+        }" width="48" height="48" loading="lazy" alt="${description}"
+          class="weather-icon" title="${description}">
 
-          <p class="body-3">${parseInt(temp)}&deg;</p>
+        <p class="body-3">${parseInt(temp)}&deg;</p>
 
-        </div>
-      `;
+      </div>
+    `;
       hourlySection.querySelector("[data-temp]").appendChild(tempLi);
 
       const windLi = document.createElement("li");
       windLi.classList.add("slider-item");
       windLi.innerHTML = `
-      <div class="card card-sm slider-card">
+    <div class="card card-sm slider-card">
 
-        <p class="body-3">${getHours(dateTimeUnix, timezone)}</p>
+      <p class="body-3">${getHours(dateTimeUnix, timezone)}</p>
 
-        <img src="${weather_icons["direction"]}" width="48" height="48" loading="lazy" alt="direction"
-          class="weather-icon" style="transform: rotate(${
-            windDirection - 180
-          }deg)">
+      <img src="${
+        weather_icons["direction"]
+      }" width="48" height="48" loading="lazy" alt="direction"
+        class="weather-icon" style="transform: rotate(${
+          windDirection - 180
+        }deg)">
 
-        <p class="body-3">${parseInt(mps_to_kmh(windSpeed))} km/h</p>
+      <p class="body-3">${parseInt(mps_to_kmh(windSpeed))} km/h</p>
 
-      </div>
-      `;
+    </div>
+    `;
       hourlySection.querySelector("[data-wind]").appendChild(windLi);
     }
-
+  };
+  const _dailyForecast = function (forecastList) {
     forecastSection.innerHTML = `
-      <h2 class="title-2" id="forecast-label">5 Days Forecast</h2>
+    <h2 class="title-2" id="forecast-label">5 Days Forecast</h2>
 
-      <div class="card card-lg forecast-card">
-        <ul data-forecast-list></ul>
-      </div>
-    `;
+    <div class="card card-lg forecast-card">
+      <ul data-forecast-list></ul>
+    </div>
+  `;
 
     for (let i = 7, len = forecastList.length; i < len; i += 8) {
       const {
@@ -339,27 +349,23 @@ const weatherApp = (function () {
       li.classList.add("card-item");
 
       li.innerHTML = `
-        <div class="icon-wrapper">
-          <img src="${weather_icons[icon]}" width="36" height="36" alt="${description}"
-            class="weather-icon" title="${description}">
+      <div class="icon-wrapper">
+        <img src="${
+          weather_icons[icon]
+        }" width="36" height="36" alt="${description}"
+          class="weather-icon" title="${description}">
 
-          <span class="span">
-            <p class="title-2">${parseInt(temp_max)}&deg;</p>
-          </span>
-        </div>
+        <span class="span">
+          <p class="title-2">${parseInt(temp_max)}&deg;</p>
+        </span>
+      </div>
 
-        <p class="label-1">${date.getDate()} ${
-        monthNames[date.getUTCMonth()]
-      }</p>
+      <p class="label-1">${date.getDate()} ${monthNames[date.getUTCMonth()]}</p>
 
-        <p class="label-1">${weekDayNames[date.getUTCDay()]}</p>
-      `;
+      <p class="label-1">${weekDayNames[date.getUTCDay()]}</p>
+    `;
       forecastSection.querySelector("[data-forecast-list]").appendChild(li);
     }
-
-    loading.style.display = "none";
-    container.style.overflowY = "overlay";
-    container.classList.add("fade-in");
   };
   const _reverseGeo = function ([{ name, country }]) {
     document.querySelector("[data-location]").innerHTML = `${name}, ${country}`;
@@ -380,9 +386,6 @@ const weatherApp = (function () {
       currentLocationBtn.removeAttribute("disabled");
     }
 
-    /**
-     * CURRENT WEATHER SECTION
-     */
     fetchData(url.currentWeather(lat, lon), function (currentWeather) {
       const {
         weather,
@@ -411,7 +414,9 @@ const weatherApp = (function () {
         <h2 class="title-2 card-title">Now</h2>
         <div class="wrapper">
           <p class="heading">${parseInt(temp)}&deg;<sup>c</sup></p>
-          <img src="${weather_icons[icon]}" width="64" height="64" alt="${description}"
+          <img src="${
+            weather_icons[icon]
+          }" width="64" height="64" alt="${description}"
             class="weather-icon">
         </div>
         <p class="body-3">${description}</p>
@@ -471,6 +476,8 @@ const weatherApp = (function () {
     });
     searchField.addEventListener("input", _searchForecast);
   };
+
+  //public variables and functions
   return {
     init: init,
   };

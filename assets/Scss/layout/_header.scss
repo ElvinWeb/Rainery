@@ -112,6 +112,7 @@
                 max-height: 360px;
                 border-radius: 0 0 $radius-28 $radius-28;
                 border-block-start: 1px solid $outline;
+                background-color: $surface;
                 overflow-y: overlay;
             }
 
@@ -214,6 +215,8 @@
 
             @include breakpoint("desktop") {
                 height: 56px;
+                border-radius: $radius-28;
+                background-color: $surface;
             }
 
             &::placeholder {
@@ -226,13 +229,13 @@
         }
 
         &-result,
-        &:not(:focus-within) &-result {
+        &:not(:focus-within) .search-result {
             @include breakpoint("desktop") {
                 display: none;
             }
         }
 
-        &:has(.search-result.active):focus-within &-field {
+        &:has(.search-result.active):focus-within .search-field {
             @include breakpoint("desktop") {
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
@@ -254,14 +257,4 @@
 
     }
 
-}
-
-
-.search-field,
-.search,
-.view-list {
-    @include breakpoint("desktop") {
-        background-color: $surface;
-        border-radius: $radius-28;
-    }
 }
