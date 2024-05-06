@@ -1,11 +1,12 @@
 {
   "name": "rainery",
   "version": "1.0.0",
+  "browserslist": "last 2 versions, > 0.5% and ie >= 11",
   "description": "Realtime weather forecast application",
-  "main": "app.js",
+  "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "repository": {
     "type": "git",

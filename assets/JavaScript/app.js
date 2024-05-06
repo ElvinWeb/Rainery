@@ -13,8 +13,8 @@ import {
   weekDayNames,
 } from "./helpers.js";
 import weather_icons from "../Images/weather_icons/*.png";
-import "core-js/stable";
-import "regenerator-runtime/runtime.js";
+import "core-js/actual";
+import "regenerator-runtime/runtime";
 
 const weatherApp = (function () {
   //private variables and functions
