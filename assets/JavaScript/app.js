@@ -17,7 +17,7 @@ import "core-js/actual";
 import "regenerator-runtime/runtime";
 
 const weatherApp = (function () {
-  //private variables and functions
+  //Private variables and functions
   const searchView = document.querySelector("[data-search-view]");
   const searchTogglers = document.querySelectorAll("[data-search-toggler]");
   const searchField = document.querySelector("[data-search-field]");
@@ -477,7 +477,7 @@ const weatherApp = (function () {
     searchField.addEventListener("input", _searchForecast);
   };
 
-  //public variables and functions
+  //Public variables and functions
   return {
     init: init,
   };
