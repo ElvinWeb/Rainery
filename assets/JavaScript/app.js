@@ -18,50 +18,53 @@ import "regenerator-runtime/runtime";
 
 const weatherApp = (function () {
   //Private variables and functions
-  const searchView = document.querySelector("[data-search-view]");
-  const searchTogglers = document.querySelectorAll("[data-search-toggler]");
-  const searchField = document.querySelector("[data-search-field]");
-  const searchResult = document.querySelector("[data-search-result]");
-  const container = document.querySelector("[data-container]");
-  const loading = document.querySelector("[data-loading]");
-  const currentLocationBtn = document.querySelector(
+  const _searchView = document.querySelector("[data-search-view]");
+  const _searchTogglers = document.querySelectorAll("[data-search-toggler]");
+  const _searchField = document.querySelector("[data-search-field]");
+  const _searchResult = document.querySelector("[data-search-result]");
+  const _container = document.querySelector("[data-container]");
+  const _loading = document.querySelector("[data-loading]");
+  const _currentLocationBtn = document.querySelector(
     "[data-current-location-btn]"
   );
-  const errorContent = document.querySelector("[data-error-content]");
-  const currentWeatherSection = document.querySelector(
+  const _errorContent = document.querySelector("[data-error-content]");
+  const _currentWeatherSection = document.querySelector(
     "[data-current-weather]"
   );
-  const highlightSection = document.querySelector("[data-highlights]");
-  const hourlySection = document.querySelector("[data-hourly-forecast]");
-  const forecastSection = document.querySelector("[data-5-day-forecast]");
-  let searchTimeout = null;
-  let airPollutionItems;
+  const _highlightSection = document.querySelector("[data-highlights]");
+  const _hourlySection = document.querySelector("[data-hourly-forecast]");
+  const _forecastSection = document.querySelector("[data-5-day-forecast]");
+  let _searchTimeout = null;
+  let _airPollutionItems;
 
+  //toggling the visibility of a searchbar
   const _toggleSearch = function () {
-    searchView.classList.toggle("active");
-    searchField.focus();
+    _searchView.classList.toggle("active");
+    _searchField.focus();
   };
+  //manages the search functionality by handling user input in the search field
   const _searchForecast = function () {
-    searchTimeout ?? clearTimeout(searchTimeout);
+    _searchTimeout ?? clearTimeout(_searchTimeout);
 
-    if (!searchField.value) {
-      searchResult.innerHTML = "";
-      searchResult.classList.remove("active");
-      searchField.classList.remove("searching");
+    if (!_searchField.value) {
+      _searchResult.innerHTML = "";
+      _searchResult.classList.remove("active");
+      _searchField.classList.remove("searching");
     } else {
-      searchField.classList.add("searching");
+      _searchField.classList.add("searching");
     }
 
-    if (searchField.value) {
-      searchTimeout = setTimeout(() => {
-        fetchData(url.geo(searchField.value), _searchedResults);
+    if (_searchField.value) {
+      _searchTimeout = setTimeout(() => {
+        fetchData(url.geo(_searchField.value), _searchedResults);
       }, TIMEOUT_SEC);
     }
   };
+  //dynamically generates and populates the HTML structure to display search results for locations 
   const _searchedResults = function (locations) {
-    searchField.classList.remove("searching");
-    searchResult.classList.add("active");
-    searchResult.innerHTML = `
+    _searchField.classList.remove("searching");
+    _searchResult.classList.add("active");
+    _searchResult.innerHTML = `
       <ul class="view-list" data-search-list></ul>
     `;
     const items = [];
@@ -69,7 +72,7 @@ const weatherApp = (function () {
       const errLi = document.createElement("li");
       errLi.classList.add("error-message");
       errLi.innerHTML = `<p class="body-1">No such place was found!</p>`;
-      searchResult.querySelector("[data-search-list]").append(errLi);
+      _searchResult.querySelector("[data-search-list]").append(errLi);
     } else {
       for (const { name, lat, lon, country, state } of locations) {
         const searchItem = document.createElement("li");
@@ -83,7 +86,7 @@ const weatherApp = (function () {
         <a href="#/weather?lat=${lat}&lon=${lon}" class="item-link has-state" aria-label="${name} weather" data-search-toggler></a>
       `;
 
-        searchResult
+        _searchResult
           .querySelector("[data-search-list]")
           .appendChild(searchItem);
         items.push(searchItem.querySelector("[data-search-toggler]"));
@@ -98,6 +101,7 @@ const weatherApp = (function () {
       searchResult.querySelector("[data-search-list]").innerHTML = " ";
     });
   };
+  //dynamically generates and populates the HTML structure to display air pollution-related highlights cards
   const _airPollution = function (airPollution) {
     const [
       sunriseUnixUTC,
@@ -107,7 +111,7 @@ const weatherApp = (function () {
       pressure,
       visibility,
       feels_like,
-    ] = airPollutionItems;
+    ] = _airPollutionItems;
 
     const [
       {
@@ -250,10 +254,10 @@ const weatherApp = (function () {
       </div>
     `;
 
-    highlightSection.appendChild(card);
+    _highlightSection.appendChild(card);
   };
+  //rendering of both hourly and daily forecasts based on the fetched forecast data
   const _forecast = function (forecast) {
-
     const {
       list: forecastList,
       city: { timezone },
@@ -262,12 +266,13 @@ const weatherApp = (function () {
     _hourlyForecast(forecastList);
     _dailyForecast(forecastList, timezone);
 
-    loading.style.display = "none";
-    container.style.overflowY = "overlay";
-    container.classList.add("fade-in");
+    _loading.style.display = "none";
+    _container.style.overflowY = "overlay";
+    _container.classList.add("fade-in");
   };
+  //dynamically generates and populates the HTML structure to display the hourly forecast
   const _hourlyForecast = function (forecastList, timezone) {
-    hourlySection.innerHTML = `
+    _hourlySection.innerHTML = `
     <h2 class="title-2">Today at</h2>
 
     <div class="slider-container">
@@ -304,7 +309,7 @@ const weatherApp = (function () {
 
       </div>
     `;
-      hourlySection.querySelector("[data-temp]").appendChild(tempLi);
+      _hourlySection.querySelector("[data-temp]").appendChild(tempLi);
 
       const windLi = document.createElement("li");
       windLi.classList.add("slider-item");
@@ -324,11 +329,12 @@ const weatherApp = (function () {
 
     </div>
     `;
-      hourlySection.querySelector("[data-wind]").appendChild(windLi);
+      _hourlySection.querySelector("[data-wind]").appendChild(windLi);
     }
   };
+  //dynamically generates and populates the HTML structure to display the daily forecast
   const _dailyForecast = function (forecastList) {
-    forecastSection.innerHTML = `
+    _forecastSection.innerHTML = `
     <h2 class="title-2" id="forecast-label">5 Days Forecast</h2>
 
     <div class="card card-lg forecast-card">
@@ -364,26 +370,28 @@ const weatherApp = (function () {
 
       <p class="label-1">${weekDayNames[date.getUTCDay()]}</p>
     `;
-      forecastSection.querySelector("[data-forecast-list]").appendChild(li);
+      _forecastSection.querySelector("[data-forecast-list]").appendChild(li);
     }
   };
+  //according to location coords, reversed to country name
   const _reverseGeo = function ([{ name, country }]) {
     document.querySelector("[data-location]").innerHTML = `${name}, ${country}`;
   };
+  //designed to fetch and display current weather data on a web page
   const _updateWeather = function (lat, lon) {
-    loading.style.display = "grid";
-    container.style.overflowY = "hidden";
-    errorContent.style.display = "none";
+    _loading.style.display = "grid";
+    _container.style.overflowY = "hidden";
+    _errorContent.style.display = "none";
 
-    currentWeatherSection.innerHTML = "";
-    highlightSection.innerHTML = "";
-    hourlySection.innerHTML = "";
-    forecastSection.innerHTML = "";
+    _currentWeatherSection.innerHTML = "";
+    _highlightSection.innerHTML = "";
+    _hourlySection.innerHTML = "";
+    _forecastSection.innerHTML = "";
 
     if (window.location.hash === "#/current-location") {
-      currentLocationBtn.setAttribute("disabled", "");
+      _currentLocationBtn.setAttribute("disabled", "");
     } else {
-      currentLocationBtn.removeAttribute("disabled");
+      _currentLocationBtn.removeAttribute("disabled");
     }
 
     fetchData(url.currentWeather(lat, lon), function (currentWeather) {
@@ -397,7 +405,7 @@ const weatherApp = (function () {
       } = currentWeather;
       const [{ description, icon }] = weather;
 
-      airPollutionItems = [
+      _airPollutionItems = [
         sunriseUnixUTC,
         sunsetUnixUTC,
         timezone,
@@ -432,13 +440,15 @@ const weatherApp = (function () {
         </ul>
       `;
 
-      currentWeatherSection.appendChild(card);
+      _currentWeatherSection.appendChild(card);
       fetchData(url.reverseGeo(lat, lon), _reverseGeo);
       fetchData(url.airPollution(lat, lon), _airPollution);
       fetchData(url.forecast(lat, lon), _forecast);
     });
   };
+  //takes a query string and then updates the weather using these parameters
   const _searchedLocation = (query) => _updateWeather(...query.split("&"));
+  //updating weather UI according to current location coords(lan,lon)
   const _currentLocation = function () {
     window.navigator.geolocation.getCurrentPosition(
       (res) => {
@@ -450,6 +460,7 @@ const weatherApp = (function () {
       }
     );
   };
+  //parse the hash portion of the URL, extract the route and query string
   const _checkHash = function () {
     const requestUrl = window.location.hash.slice(1);
 
@@ -457,15 +468,17 @@ const weatherApp = (function () {
       ? requestUrl.split("?")
       : [requestUrl];
 
-    routes.get(rotue) ? routes.get(rotue)(query) : _error404();
+    _routes.get(rotue) ? _routes.get(rotue)(query) : _error404();
   };
-  const _error404 = () => (errorContent.style.display = "flex");
-  const routes = new Map([
+  //displaying error message
+  const _error404 = () => (_errorContent.style.display = "flex");
+  const _routes = new Map([
     ["/current-location", _currentLocation],
     ["/weather", _searchedLocation],
   ]);
+  //project initialization
   const init = function () {
-    addEventOnElements(searchTogglers, "click", _toggleSearch);
+    addEventOnElements(_searchTogglers, "click", _toggleSearch);
     window.addEventListener("hashchange", _checkHash);
     window.addEventListener("load", () => {
       if (!window.location.hash) {
@@ -474,7 +487,7 @@ const weatherApp = (function () {
         _checkHash();
       }
     });
-    searchField.addEventListener("input", _searchForecast);
+    _searchField.addEventListener("input", _searchForecast);
   };
 
   //Public variables and functions
