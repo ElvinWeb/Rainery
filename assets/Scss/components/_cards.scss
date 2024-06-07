@@ -1,15 +1,13 @@
 .highlight-card {
 
     :is(.wrapper, .card-list, .card-item) {
-        display: flex;
-        align-items: center;
+        @extend %align-center;
     }
 
     .wrapper {
-        justify-content: space-between;
-        gap: 16px;
-
+        @include flexbox(null, null, space-between, null, 16px, null);
     }
+
     .m-icon {
         @include breakpoint("desktop") {
             font-size: 4.8rem;
@@ -18,8 +16,7 @@
 
     .card-item {
         width: 50%;
-        justify-content: flex-end;
-        gap: 4px;
+        @include flexbox(null, null, flex-end, null, 4px, null);
     }
 
     .label-1 {
@@ -29,9 +26,7 @@
     &.two {
 
         .card-item {
-            justify-content: flex-start;
-            flex-wrap: wrap;
-            gap: 8px 16px;
+            @include flexbox(null, null, flex-start, null, 8px 16px, wrap);
 
             @include breakpoint("desktop") {
                 column-gap: 10px;
@@ -72,8 +67,7 @@
     &.one .card-item {
         @include breakpoint("tablet") {
             width: 25%;
-            flex-direction: column-reverse;
-            gap: 8px;
+            @include flexbox(null, null, null, column-reverse, 8px, null);
         }
     }
 
@@ -91,8 +85,7 @@
     }
 
     :is(.card-item, .icon-wrapper) {
-        display: flex;
-        align-items: center;
+        @extend %align-center;
     }
 
     .card-item:not(:last-child) {
@@ -122,9 +115,7 @@
 
     .wrapper {
         margin-block: 12px;
-        display: flex;
-        gap: 8px;
-        align-items: center;
+        @include flexbox(flex, center, null, null, 8px, null);
     }
 
     .weather-icon {
@@ -141,9 +132,7 @@
         border-block-start: 1px solid $outline;
 
         .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            @include flexbox(flex, center, null, null, 8px, null);
 
             &:not(:last-child) {
                 margin-block-end: 12px;

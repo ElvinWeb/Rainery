@@ -1,14 +1,8 @@
 .error-content {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: var(--background);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    display: none;
+    @include position(fixed, 0, null, null, 0);
+    @include size(100%,100vh);
+    @include flexbox(none, center, center, column, null, null);
+    background-color: $background;
     z-index: 8;
 
     .btn-primary {

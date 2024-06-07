@@ -10,3 +10,53 @@
     }
 
 }
+
+@mixin position($pos, $top, $right, $bottom, $left) {
+    position: $pos;
+
+    @if $top !=null {
+        top: $top;
+    }
+
+    @if $right !=null {
+        right: $right;
+    }
+
+    @if $bottom !=null {
+        bottom: $bottom;
+    }
+
+    @if $left !=null {
+        left: $left;
+    }
+}
+
+@mixin flexbox($dis, $align, $justify, $direction, $gap, $wrap) {
+    display: $dis;
+
+    @if $align !=null {
+        align-items: $align;
+    }
+
+    @if $justify !=null {
+        justify-content: $justify;
+    }
+
+    @if $direction !=null {
+        flex-direction: $direction;
+    }
+
+    @if $gap !=null {
+        gap: $gap;
+    }
+
+    @if $wrap !=null {
+        flex-wrap: $wrap;
+    }
+
+}
+
+@mixin size($width, $height) {
+    width: $width;
+    height: $height;
+}

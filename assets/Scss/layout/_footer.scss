@@ -1,18 +1,15 @@
 .footer {
     text-align: center;
-    color: var(--on-surface-variant);
-    gap: 12px 24px;
+    color: $on-surface-variant;
     padding: 15px 0px 50px 0px;
-    display: none;
-    @extend %flex-box;
+    @include flexbox(none, center, center, null, 12px 24px, wrap);
 
     @include breakpoint("tablet") {
         padding: 10px 0px 10px 0px;
     }
 
     .body-3:last-child {
-        gap: 6px;
-        @extend %flex-box;
+        @include flexbox(none, center, center, null, 6px, wrap);
     }
 }
 
