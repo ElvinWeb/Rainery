@@ -56,7 +56,7 @@
     }
 
     .search {
-        @include position(fixed, 0, null, null, o);
+        @include position(fixed, 0, null, null, 0);
         @include size(100%, 100vh);
         background-color: $surface;
         color: $on-surface;

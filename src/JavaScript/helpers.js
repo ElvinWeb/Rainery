@@ -1,7 +1,11 @@
-"use strict";
-import { API_KEY, API_URL, GEO_API_URL } from "./config.js";
+import {
+  API_KEY,
+  API_URL,
+  GEO_LOC_API_URL,
+  ERROR_DISPLAY_TIME,
+} from "./config.js";
 
-export const weekDayNames = [
+const weekDayNames = [
   "Sunday",
   "Monday",
   "Tuesday",
@@ -10,7 +14,7 @@ export const weekDayNames = [
   "Friday",
   "Saturday",
 ];
-export const monthNames = [
+const monthNames = [
   "Jan",
   "Feb",
   "Mar",
@@ -24,14 +28,14 @@ export const monthNames = [
   "Nov",
   "Dec",
 ];
-export const getDate = function (dateUnix, timeZone) {
+const getDate = function (dateUnix, timeZone) {
   const date = new Date((dateUnix + timeZone) * 1000);
   const weekDayName = weekDayNames[date.getUTCDay()];
   const monthName = monthNames[date.getUTCMonth()];
 
   return `${weekDayName} ${date.getUTCDate()}, ${monthName}`;
 };
-export const getTime = function (timeUnix, timezone) {
+const getTime = function (timeUnix, timezone) {
   const date = new Date((timeUnix + timezone) * 1000);
   const hours = date.getUTCHours();
   const minutes = date.getUTCMinutes();
@@ -39,18 +43,18 @@ export const getTime = function (timeUnix, timezone) {
 
   return `${hours % 12 || 12}:${minutes} ${period}`;
 };
-export const getHours = function (timeUnix, timezone) {
+const getHours = function (timeUnix, timezone) {
   const date = new Date((timeUnix + timezone) * 1000);
   const hours = date.getUTCHours();
   const period = hours >= 12 ? "PM" : "AM";
 
   return `${hours % 12 || 12} ${period}`;
 };
-export const mps_to_kmh = function (mps) {
+const mps_to_kmh = function (mps) {
   const mph = mps * 3600;
   return mph / 1000;
 };
-export const aqiText = {
+const aqiText = {
   1: {
     level: "Good",
     message:
@@ -77,20 +81,31 @@ export const aqiText = {
       "Health warnings of emergency conditions. The entire population is more likely to be affected.",
   },
 };
-export const addEventOnElements = function (elements, eventType, callBack) {
+const renderError = function (message) {
+  const errorEl = document.querySelector(".error");
+  const errorTextEl = document.querySelector(".error-text");
+
+  errorTextEl.textContent = message;
+  errorEl.classList.add("error--visible");
+  setTimeout(() => {
+    errorEl.classList.remove("error--visible");
+  }, ERROR_DISPLAY_TIME);
+};
+const addEventOnElements = function (elements, eventType, callBack) {
   for (const element of elements) {
     element.addEventListener(eventType, callBack);
   }
 };
-export const fetchData = function (URL, callback) {
+const fetchData = function (URL, callback) {
   fetch(`${URL}&appid=${API_KEY}`)
     .then((res) => res.json())
     .then((data) => callback(data))
     .catch((err) => {
+      renderError("Some problem encountered while fetching data");
       console.log(err);
     });
 };
-export const url = {
+const url = {
   currentWeather(lat, lon) {
     return `${API_URL}/weather?${lat}&${lon}&units=metric`;
   },
@@ -101,9 +116,23 @@ export const url = {
     return `${API_URL}/air_pollution?${lat}&${lon}&units=metric`;
   },
   reverseGeo(lat, lon) {
-    return `${GEO_API_URL}/reverse?${lat}&${lon}&limit=5`;
+    return `${GEO_LOC_API_URL}/reverse?${lat}&${lon}&limit=5`;
   },
   geo(city_name) {
-    return `${GEO_API_URL}/direct?q=${city_name}&limit=5`;
+    return `${GEO_LOC_API_URL}/direct?q=${city_name}&limit=5`;
   },
+};
+
+export {
+  weekDayNames,
+  monthNames,
+  url,
+  aqiText,
+  getDate,
+  getTime,
+  getHours,
+  mps_to_kmh,
+  addEventOnElements,
+  fetchData,
+  renderError,
 };

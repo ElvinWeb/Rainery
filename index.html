@@ -3,12 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
     <title>Rainery // Get the forecast you deserve</title>
     <!--- favicon --->
     <link
       rel="shortcut icon"
-      href="./assets/Images/icon_rainery.png"
+      href="./src/Images/icon_rainery.png"
       type="image/svg+xml"
     />
     <!--- Google font link --->
@@ -18,20 +21,28 @@
       href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap"
       rel="stylesheet"
     />
+    <!--- Font-Awesome cdn link --->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <!--- Custom css link --->
-    <link rel="stylesheet" href="./assets/Scss/main.scss">
+    <link rel="stylesheet" href="./src/Scss/main.scss" />
+    <!--- Custom app js link --->
+    <script src="./src/JavaScript/app.js" type="module"></script>
   </head>
   <body>
     <!----- Header ---->
     <header class="header">
       <div class="container">
         <a href="./index.html" class="logo">
-          <img src="./assets/Images/logo_rainery.png" alt="logo" class="header__img"/>
+          <img
+            src="./src/Images/logo_rainery.png"
+            alt="logo"
+            class="header__img"
+          />
         </a>
-        <div
-          class="search"
-          data-search-view
-        >
+        <div class="search" data-search-view>
           <div class="search-wrapper">
             <input
               type="search"
@@ -113,7 +124,7 @@
                 class="api_logo"
               >
                 <img
-                  src="./assets/Images/openweather.png"
+                  src="./src/Images/openweather.png"
                   width="150"
                   height="30"
                   loading="lazy"
@@ -127,15 +138,23 @@
         <div class="loading" data-loading></div>
       </article>
     </main>
-    <!----- Error ---->
-    <section class="error-content" data-error-content>
+    <!----- NotFound ---->
+    <section class="not-found" data-error-content>
       <h2 class="heading">404</h2>
       <p class="body-1">Page Not Found!</p>
       <a href="#/weather?lat=40.3876&lon=49.80725" class="btn-primary">
         <span class="span">Go Home</span>
       </a>
     </section>
-    <!--- app js link --->
-    <script src="./assets/JavaScript/app.js" type="module"></script>
+    <!----- Error box ---->
+    <section class="error">
+      <i class="fa-solid fa-circle-exclamation error-icon"></i>
+      <div class="error-right">
+        <p class="error-title">Something went wrong!</p>
+        <p class="error-text">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        </p>
+      </div>
+    </section>
   </body>
 </html>

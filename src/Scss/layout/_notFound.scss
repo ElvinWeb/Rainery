@@ -1,6 +1,6 @@
-.error-content {
+.not-found {
     @include position(fixed, 0, null, null, 0);
-    @include size(100%,100vh);
+    @include size(100%, 100vh);
     @include flexbox(none, center, center, column, null, null);
     background-color: $background;
     z-index: 8;

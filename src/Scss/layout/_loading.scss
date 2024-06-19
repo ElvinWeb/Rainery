@@ -8,7 +8,7 @@
 
     &::before {
         content: "";
-        @include size(48px, 48px);
+        @include size(60px, 60px);
         border: 4px solid $on-background;
         border-block-start-color: transparent;
         border-radius: $radius-circle;

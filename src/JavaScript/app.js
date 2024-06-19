@@ -1,5 +1,4 @@
-"use strict";
-import { TIMEOUT_SEC, DEFAULT_LOC } from "./config.js";
+import { SEARCH_RES_DISPLAY_TIME, DEFAULT_LOC } from "./config.js";
 import {
   getDate,
   getHours,
@@ -36,48 +35,53 @@ const weatherApp = (function () {
   const _forecastSection = document.querySelector("[data-5-day-forecast]");
   let _searchTimeout = null;
   let _airPollutionItems;
+  const _searchedItems = [];
 
   //toggling the visibility of a searchbar
-  const _toggleSearch = function () {
-    _searchView.classList.toggle("active");
-    _searchField.focus();
+  const _toggleSearch = () => _searchView.classList.toggle("active");
+  //clearing the search area
+  const _clearSearch = () => {
+    _searchField.value = "";
+    _searchResult.querySelector("[data-search-list]").innerHTML = "";
   };
   //manages the search functionality by handling user input in the search field
   const _searchForecast = function () {
     _searchTimeout ?? clearTimeout(_searchTimeout);
 
     if (!_searchField.value) {
-      _searchResult.innerHTML = "";
       _searchResult.classList.remove("active");
       _searchField.classList.remove("searching");
     } else {
       _searchField.classList.add("searching");
-    }
-
-    if (_searchField.value) {
       _searchTimeout = setTimeout(() => {
         fetchData(url.geo(_searchField.value), _searchedResults);
-      }, TIMEOUT_SEC);
+      }, SEARCH_RES_DISPLAY_TIME);
     }
   };
-  //dynamically generates and populates the HTML structure to display search results for locations 
+  //dynamically generates and populates the HTML structure to display search results for locations
   const _searchedResults = function (locations) {
     _searchField.classList.remove("searching");
     _searchResult.classList.add("active");
-    _searchResult.innerHTML = `
-      <ul class="view-list" data-search-list></ul>
-    `;
-    const items = [];
+    _searchResult.innerHTML = `<ul class="view-list" data-search-list></ul>`;
+
     if (locations.length === 0) {
-      const errLi = document.createElement("li");
-      errLi.classList.add("error-message");
-      errLi.innerHTML = `<p class="body-1">No such place was found!</p>`;
-      _searchResult.querySelector("[data-search-list]").append(errLi);
+      _searchError();
     } else {
-      for (const { name, lat, lon, country, state } of locations) {
-        const searchItem = document.createElement("li");
-        searchItem.classList.add("view-item");
-        searchItem.innerHTML = `
+      _searchListItems(locations);
+    }
+
+    addEventOnElements(_searchedItems, "click", function () {
+      _toggleSearch();
+      _clearSearch();
+      _searchResult.classList.remove("active");
+    });
+  };
+  //display search results with location items
+  const _searchListItems = function (locations) {
+    for (const { name, lat, lon, country, state } of locations) {
+      const searchItem = document.createElement("li");
+      searchItem.classList.add("view-item");
+      searchItem.innerHTML = `
         <span class="m-icon">location_on</span>
         <div>
           <p class="item-title">${name}</p>
@@ -86,20 +90,16 @@ const weatherApp = (function () {
         <a href="#/weather?lat=${lat}&lon=${lon}" class="item-link has-state" aria-label="${name} weather" data-search-toggler></a>
       `;
 
-        _searchResult
-          .querySelector("[data-search-list]")
-          .appendChild(searchItem);
-        items.push(searchItem.querySelector("[data-search-toggler]"));
-      }
+      _searchResult.querySelector("[data-search-list]").appendChild(searchItem);
+      _searchedItems.push(searchItem.querySelector("[data-search-toggler]"));
     }
-
-    addEventOnElements(items, "click", function () {
-      _toggleSearch();
-      searchResult.classList.remove("active");
-      searchField.value = "";
-      searchField.focus();
-      searchResult.querySelector("[data-search-list]").innerHTML = " ";
-    });
+  };
+  // display an error message when no locations are found
+  const _searchError = function () {
+    const errLi = document.createElement("li");
+    errLi.classList.add("error-message");
+    errLi.innerHTML = `<p class="body-1">No such place was found!</p>`;
+    _searchResult.querySelector("[data-search-list]").append(errLi);
   };
   //dynamically generates and populates the HTML structure to display air pollution-related highlights cards
   const _airPollution = function (airPollution) {
@@ -119,9 +119,9 @@ const weatherApp = (function () {
         components: { no2, o3, so2, pm2_5 },
       },
     ] = airPollution.list;
+
     const card = document.createElement("div");
     card.classList.add("card", "card-lg");
-
     card.innerHTML = `
       <h2 class="title-2" id="highlights-label">Todays Highlights</h2>
 
@@ -270,7 +270,7 @@ const weatherApp = (function () {
     _container.style.overflowY = "overlay";
     _container.classList.add("fade-in");
   };
-  //dynamically generates and populates the HTML structure to display the hourly forecast
+  //to initialize the hourly forecast section
   const _hourlyForecast = function (forecastList, timezone) {
     _hourlySection.innerHTML = `
     <h2 class="title-2">Today at</h2>
@@ -281,7 +281,10 @@ const weatherApp = (function () {
       <ul class="slider-list" data-wind></ul>
     </div>
   `;
-
+    _hourlyForecastCards(forecastList, timezone);
+  };
+  //to create and append hourly forecast cards
+  const _hourlyForecastCards = function (forecastList, timezone) {
     for (const [index, data] of forecastList.entries()) {
       if (index > 7) break;
 
@@ -332,7 +335,7 @@ const weatherApp = (function () {
       _hourlySection.querySelector("[data-wind]").appendChild(windLi);
     }
   };
-  //dynamically generates and populates the HTML structure to display the daily forecast
+  // to initialize the daily forecast section
   const _dailyForecast = function (forecastList) {
     _forecastSection.innerHTML = `
     <h2 class="title-2" id="forecast-label">5 Days Forecast</h2>
@@ -341,7 +344,10 @@ const weatherApp = (function () {
       <ul data-forecast-list></ul>
     </div>
   `;
-
+    _dailyForecastList(forecastList);
+  };
+  // to create and append daily forecast list items
+  const _dailyForecastList = function (forecastList) {
     for (let i = 7, len = forecastList.length; i < len; i += 8) {
       const {
         main: { temp_max },
@@ -395,56 +401,58 @@ const weatherApp = (function () {
     }
 
     fetchData(url.currentWeather(lat, lon), function (currentWeather) {
-      const {
-        weather,
-        dt: dateUnix,
-        sys: { sunrise: sunriseUnixUTC, sunset: sunsetUnixUTC },
-        main: { temp, feels_like, pressure, humidity },
-        visibility,
-        timezone,
-      } = currentWeather;
-      const [{ description, icon }] = weather;
-
-      _airPollutionItems = [
-        sunriseUnixUTC,
-        sunsetUnixUTC,
-        timezone,
-        humidity,
-        pressure,
-        visibility,
-        feels_like,
-      ];
-
-      const card = document.createElement("div");
-      card.classList.add("card", "card-lg", "current-weather-card");
-
-      card.innerHTML = `
-        <h2 class="title-2 card-title">Now</h2>
-        <div class="wrapper">
-          <p class="heading">${parseInt(temp)}&deg;<sup>c</sup></p>
-          <img src="${
-            weather_icons[icon]
-          }" width="64" height="64" alt="${description}"
-            class="weather-icon">
-        </div>
-        <p class="body-3">${description}</p>
-        <ul class="meta-list">
-          <li class="meta-item">
-            <span class="m-icon">calendar_today</span>
-            <p class="title-3 meta-text">${getDate(dateUnix, timezone)}</p>
-          </li>
-          <li class="meta-item">
-            <span class="m-icon">location_on</span>
-            <p class="title-3 meta-text" data-location></p>
-          </li>
-        </ul>
-      `;
-
-      _currentWeatherSection.appendChild(card);
+      _currentWeather(currentWeather);
       fetchData(url.reverseGeo(lat, lon), _reverseGeo);
       fetchData(url.airPollution(lat, lon), _airPollution);
       fetchData(url.forecast(lat, lon), _forecast);
     });
+  };
+  // to create and append current weather forecast card
+  const _currentWeather = function (currentWeather) {
+    const {
+      weather,
+      dt: dateUnix,
+      sys: { sunrise: sunriseUnixUTC, sunset: sunsetUnixUTC },
+      main: { temp, feels_like, pressure, humidity },
+      visibility,
+      timezone,
+    } = currentWeather;
+    const [{ description, icon }] = weather;
+
+    _airPollutionItems = [
+      sunriseUnixUTC,
+      sunsetUnixUTC,
+      timezone,
+      humidity,
+      pressure,
+      visibility,
+      feels_like,
+    ];
+
+    const card = document.createElement("div");
+    card.classList.add("card", "card-lg", "current-weather-card");
+    card.innerHTML = `
+      <h2 class="title-2 card-title">Now</h2>
+      <div class="wrapper">
+        <p class="heading">${parseInt(temp)}&deg;<sup>c</sup></p>
+        <img src="${
+          weather_icons[icon]
+        }" width="64" height="64" alt="${description}"
+          class="weather-icon">
+      </div>
+      <p class="body-3">${description}</p>
+      <ul class="meta-list">
+        <li class="meta-item">
+          <span class="m-icon">calendar_today</span>
+          <p class="title-3 meta-text">${getDate(dateUnix, timezone)}</p>
+        </li>
+        <li class="meta-item">
+          <span class="m-icon">location_on</span>
+          <p class="title-3 meta-text" data-location></p>
+        </li>
+      </ul>
+    `;
+    _currentWeatherSection.appendChild(card);
   };
   //takes a query string and then updates the weather using these parameters
   const _searchedLocation = (query) => _updateWeather(...query.split("&"));
@@ -463,7 +471,6 @@ const weatherApp = (function () {
   //parse the hash portion of the URL, extract the route and query string
   const _checkHash = function () {
     const requestUrl = window.location.hash.slice(1);
-
     const [rotue, query] = requestUrl.includes
       ? requestUrl.split("?")
       : [requestUrl];
