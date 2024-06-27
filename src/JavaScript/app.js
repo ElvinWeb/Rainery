@@ -1,4 +1,8 @@
-import { SEARCH_RES_DISPLAY_TIME, DEFAULT_LOC } from "./config.js";
+import {
+  SEARCH_RES_DISPLAY_TIME,
+  DEFAULT_LOC,
+  FORBIDDEN_PATTERN,
+} from "./config.js";
 import {
   getDate,
   getHours,
@@ -10,6 +14,7 @@ import {
   addEventOnElements,
   monthNames,
   weekDayNames,
+  renderError,
 } from "./helpers.js";
 import weather_icons from "../Images/weather_icons/*.png";
 import "core-js/actual";
@@ -33,8 +38,9 @@ const weatherApp = (function () {
   const _highlightSection = document.querySelector("[data-highlights]");
   const _hourlySection = document.querySelector("[data-hourly-forecast]");
   const _forecastSection = document.querySelector("[data-5-day-forecast]");
+  const state = {};
   let _searchTimeout = null;
-  let _airPollutionItems;
+  let _airPollutionItems = [];
   const _searchedItems = [];
 
   //toggling the visibility of a searchbar
@@ -47,14 +53,17 @@ const weatherApp = (function () {
   //manages the search functionality by handling user input in the search field
   const _searchForecast = function () {
     _searchTimeout ?? clearTimeout(_searchTimeout);
+    const searchText = _searchField.value.trim();
+    const patternMatch = FORBIDDEN_PATTERN.test(searchText);
 
-    if (!_searchField.value) {
+    if (!searchText || patternMatch) {
       _searchResult.classList.remove("active");
       _searchField.classList.remove("searching");
+      renderError("You searched query is not allowed!");
     } else {
       _searchField.classList.add("searching");
       _searchTimeout = setTimeout(() => {
-        fetchData(url.geo(_searchField.value), _searchedResults);
+        fetchData(url.geo(searchText), _searchedResults);
       }, SEARCH_RES_DISPLAY_TIME);
     }
   };

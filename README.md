@@ -1,1 +1,1 @@
-## Rainery // Get the forecast you deserve
+## Rainery ~ Your weather guide for every season

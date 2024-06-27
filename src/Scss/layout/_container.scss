@@ -11,6 +11,7 @@ article.container {
         grid-template-columns: 280px minmax(0, 1fr);
         align-items: flex-start;
         gap: 24px;
+        padding-bottom: 25px;
     }
 
     @include breakpoint("desktop") {
@@ -32,7 +33,7 @@ article.container {
     &::before {
         content: "";
         @include position(fixed, null, null, 0, 0);
-        @include size(100%,40px);
+        @include size(100%, 40px);
         background-image: $gradient-1;
         pointer-events: none;
         z-index: 1;
@@ -40,8 +41,7 @@ article.container {
 
     .content-left {
         @include breakpoint("tablet") {
-            position: sticky;
-            top: 0;
+            @include position(sticky, 0, null, null, null);
         }
     }
 

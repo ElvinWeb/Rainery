@@ -60,3 +60,8 @@
     width: $width;
     height: $height;
 }
+
+@mixin visibility($opacity, $visible) {
+    opacity: $opacity;
+    visibility: $visible;
+}

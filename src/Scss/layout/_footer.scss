@@ -9,7 +9,8 @@
     }
 
     .body-3:last-child {
-        @include flexbox(none, center, center, null, 6px, wrap);
+        @include flexbox(flex, center, center, null, 6px, wrap);
+        font-size: 17px;
     }
 }
 
