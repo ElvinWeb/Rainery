@@ -20,7 +20,7 @@
         &::-webkit-scrollbar {
             display: none;
         }
-        
+
         .slider-list {
             display: flex;
             gap: 12px;
@@ -34,8 +34,7 @@
             }
 
             &::before {
-                content: "";
-                min-width: 4px;
+                @extend %content-width;
 
                 @include breakpoint("tablet") {
                     display: none;
@@ -44,8 +43,7 @@
             }
 
             &::after {
-                content: "";
-                min-width: 4px;
+                @extend %content-width;
 
                 @include breakpoint("tablet") {
                     min-width: 12px;

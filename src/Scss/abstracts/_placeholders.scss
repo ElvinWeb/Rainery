@@ -2,3 +2,8 @@
     display: flex;
     align-items: center;
 }
+
+%content-width {
+    content: "";
+    min-width: 4px;
+}

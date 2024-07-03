@@ -1,6 +1,6 @@
 .icon-btn {
     background-color: $white-alpha-8;
-    @include size(48px, 48px);
+    @include size(48px, 48px, null, null, null);
     display: grid;
     place-items: center;
     border-radius: $radius-circle;

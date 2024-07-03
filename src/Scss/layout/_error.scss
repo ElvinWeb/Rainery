@@ -1,8 +1,7 @@
 .error {
     background: $surface;
     padding: 14px 20px;
-    width: 280px;
-    min-height: 46px;
+    @include size(280px, null, null, 46px, null);
     border-radius: 3px;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
     display: flex;

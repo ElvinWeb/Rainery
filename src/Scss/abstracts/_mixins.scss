@@ -56,9 +56,27 @@
 
 }
 
-@mixin size($width, $height) {
-    width: $width;
-    height: $height;
+@mixin size($width, $height, $maxwidth, $minheight, $maxheight) {
+
+    @if $width !=null {
+        width: $width;
+    }
+
+    @if $height !=null {
+        height: $height;
+    }
+
+    @if $maxwidth !=null {
+        max-width: $maxwidth;
+    }
+
+    @if $minheight !=null {
+        min-height: $minheight;
+    }
+
+    @if $maxheight !=null {
+        max-height: $maxheight;
+    }
 }
 
 @mixin visibility($opacity, $visible) {

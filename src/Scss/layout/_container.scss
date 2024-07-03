@@ -33,7 +33,7 @@ article.container {
     &::before {
         content: "";
         @include position(fixed, null, null, 0, 0);
-        @include size(100%, 40px);
+        @include size(100%, 40px, null, null,null);
         background-image: $gradient-1;
         pointer-events: none;
         z-index: 1;

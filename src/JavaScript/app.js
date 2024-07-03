@@ -410,14 +410,14 @@ const weatherApp = (function () {
     }
 
     fetchData(url.currentWeather(lat, lon), function (currentWeather) {
-      _currentWeather(currentWeather);
+      _currentWeatherCard(currentWeather);
       fetchData(url.reverseGeo(lat, lon), _reverseGeo);
       fetchData(url.airPollution(lat, lon), _airPollution);
       fetchData(url.forecast(lat, lon), _forecast);
     });
   };
   // to create and append current weather forecast card
-  const _currentWeather = function (currentWeather) {
+  const _currentWeatherCard = function (currentWeather) {
     const {
       weather,
       dt: dateUnix,
